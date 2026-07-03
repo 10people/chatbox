@@ -85,7 +85,7 @@ export function settings(): Settings {
 
     defaultPrompt: getDefaultPrompt(),
 
-    allowReportingAndTracking: true,
+    allowReportingAndTracking: false,
 
     hasExpiredLicense: false,
     chatboxAIDesktopPromptDismissed: false,
@@ -93,7 +93,7 @@ export function settings(): Settings {
     enableMarkdownRendering: true,
     enableLaTeXRendering: true,
     enableMermaidRendering: true,
-    injectDefaultMetadata: true,
+    injectDefaultMetadata: false,
     autoPreviewArtifacts: false,
     autoCollapseCodeBlock: true,
     pasteLongTextAsAFile: true,
@@ -104,7 +104,7 @@ export function settings(): Settings {
     compactionThreshold: 0.6,
 
     autoLaunch: false,
-    autoUpdate: true,
+    autoUpdate: false,
     betaUpdate: false,
 
     shortcuts: {
