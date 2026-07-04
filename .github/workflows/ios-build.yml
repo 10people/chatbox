@@ -1,0 +1,73 @@
+name: Build Unsigned iOS IPA
+
+on:
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+jobs:
+  build-ios:
+    runs-on: macos-latest # ALWAYS USE THE LATEST macOS version provided by GitHub
+    
+    steps:
+      # 1. Checkout your customized clean code repository (Using latest v4)
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js environment (Matched with your local latest version 24)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24' # Using the latest Node.js v24
+
+      # 3. Setup pnpm package manager (Using latest v4)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      # 4. Install all project dependencies
+      - name: Install Dependencies
+        run: pnpm install
+        
+      # 5. Build the web application assets
+      - name: Build Web Frontend
+        run: pnpm build
+
+      # 6. Initialize and sync Capacitor iOS platform
+      - name: Sync Capacitor iOS
+        run: |
+          rm -rf ios
+          pnpm exec cap add ios
+          pnpm exec cap sync ios
+
+      # 7. Build Xcode App (Direct Pathing)
+      - name: Build Xcode App (No Code Sign)
+        run: |
+          # Go to the directory containing the project
+          cd ios/App
+          
+          # Use -project to point explicitly to the project file
+          # Use -scheme App to explicitly target the 'App' scheme 
+          # (as seen in your file structure where 'App' is the main project)
+          xcodebuild -project App.xcodeproj \
+                     -scheme App \
+                     -configuration Release \
+                     -sdk iphoneos \
+                     CODE_SIGNING_ALLOWED=NO \
+                     CODE_SIGNING_REQUIRED=NO \
+                     clean build
+
+      # 8. Package the compiled bundle into an unsigned .ipa file for SideStore
+      - name: Package to Unsigned IPA
+        run: |
+          mkdir -p Payload
+          # Locate the built .app folder in Xcode's default build path
+          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "App.app" -type d | head -n 1)
+          cp -r "$APP_PATH" Payload/
+          # Compress the payload directory into a standard .ipa package
+          zip -r Chatbox_unsigned.ipa Payload
+          echo "Unsigned IPA packaged successfully!"
+
+      # 9. Upload the final .ipa file to GitHub Actions Artifacts (Using latest v4)
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Chatbox-iOS-Unsigned-IPA
+          path: Chatbox_unsigned.ipa
