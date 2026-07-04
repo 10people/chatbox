@@ -43,6 +43,8 @@ jobs:
           # Go to the directory containing the project
           cd ios/App
           
+          pod install --repo-update
+
           # Use -project to point explicitly to the project file
           # Use -scheme App to explicitly target the 'App' scheme 
           # (as seen in your file structure where 'App' is the main project)
