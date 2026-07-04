@@ -26,15 +26,15 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      # 5. Build the web application assets
-      - name: Build Web Frontend
-        run: pnpm build
+      # # 5. Build the web application assets
+      # - name: Build Web Frontend
+      #   run: pnpm build
 
-      # 6. Initialize and sync Capacitor iOS platform
-      - name: Sync Capacitor iOS
-        run: |
-          pnpm exec cap add ios || true
-          pnpm exec cap sync ios
+      # # 6. Initialize and sync Capacitor iOS platform
+      # - name: Sync Capacitor iOS
+      #   run: |
+      #     pnpm exec cap add ios || true
+      #     pnpm exec cap sync ios
 
       # 7. Compile Xcode workspace without Apple Developer signing requirements
       - name: Build Xcode App (No Code Sign)
