@@ -25,12 +25,12 @@ jobs:
       # 4. Install all project dependencies
       - name: Install Dependencies
         run: pnpm install
-
-      # # 新增：安装 CocoaPods 依赖 (这是通往成功的最后一步！)
-      # - name: Install CocoaPods
-      #   run: |
-      #     cd ios/App
-      #     pod install
+        
+      # 新增：安装 CocoaPods 依赖 (这是通往成功的最后一步！)
+      - name: Install CocoaPods
+        run: |
+          cd ios/App
+          pod install
 
       # # 5. Build the web application assets
       # - name: Build Web Frontend
