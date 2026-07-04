@@ -21,8 +21,6 @@ jobs:
       # 3. Setup pnpm package manager (Using latest v4)
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Using latest pnpm version 9
 
       # 4. Install all project dependencies
       - name: Install Dependencies
