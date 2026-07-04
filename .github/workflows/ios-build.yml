@@ -12,19 +12,25 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # # 2. Setup Node.js environment (Matched with your local latest version 24)
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '24' # Using the latest Node.js v24
+      # 2. Setup Node.js environment (Matched with your local latest version 24)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24' # Using the latest Node.js v24
 
-      # # 3. Setup pnpm package manager (Using latest v4)
-      # - name: Install pnpm
-      #   uses: pnpm/action-setup@v4
+      # 3. Setup pnpm package manager (Using latest v4)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-      # # 4. Install all project dependencies
-      # - name: Install Dependencies
-      #   run: pnpm install
+      # 4. Install all project dependencies
+      - name: Install Dependencies
+        run: pnpm install
+
+      # # 新增：安装 CocoaPods 依赖 (这是通往成功的最后一步！)
+      # - name: Install CocoaPods
+      #   run: |
+      #     cd ios/App
+      #     pod install
 
       # # 5. Build the web application assets
       # - name: Build Web Frontend
@@ -35,12 +41,6 @@ jobs:
       #   run: |
       #     pnpm exec cap add ios || true
       #     pnpm exec cap sync ios
-      
-      # 新增：安装 CocoaPods 依赖 (这是通往成功的最后一步！)
-      - name: Install CocoaPods
-        run: |
-          cd ios/App
-          pod install
 
       # 7. Build Xcode App (Direct Pathing)
       - name: Build Xcode App (No Code Sign)
