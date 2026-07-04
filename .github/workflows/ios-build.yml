@@ -36,22 +36,23 @@ jobs:
       #     pnpm exec cap add ios || true
       #     pnpm exec cap sync ios
 
-      # 7. Auto-detect Scheme and compile the Xcode workspace
+      # 7. Build Xcode App (Direct Pathing)
       - name: Build Xcode App (No Code Sign)
         run: |
+          # Go to the directory containing the project
           cd ios/App
-          # Detect the available schemes in the workspace and select the first one
-          SCHEME=$(xcodebuild -list -workspace App.xcworkspace | grep -A 1 "Schemes:" | tail -n 1 | xargs)
-          echo "Detected Scheme: $SCHEME"
           
-          # Build using the detected scheme
-          xcodebuild -workspace App.xcworkspace \
-                     -scheme "$SCHEME" \
+          # Use -project to point explicitly to the project file
+          # Use -scheme App to explicitly target the 'App' scheme 
+          # (as seen in your file structure where 'App' is the main project)
+          xcodebuild -project App.xcodeproj \
+                     -scheme App \
                      -configuration Release \
                      -sdk iphoneos \
                      CODE_SIGNING_ALLOWED=NO \
                      CODE_SIGNING_REQUIRED=NO \
                      clean build
+
       # 8. Package the compiled bundle into an unsigned .ipa file for SideStore
       - name: Package to Unsigned IPA
         run: |
