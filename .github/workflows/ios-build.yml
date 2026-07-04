@@ -32,15 +32,16 @@ jobs:
           cd ios/App
           pod install
 
-      # # 5. Build the web application assets
-      # - name: Build Web Frontend
-      #   run: pnpm build
+      # 5. Build the web application assets
+      - name: Build Web Frontend
+        run: pnpm build
 
-      # # 6. Initialize and sync Capacitor iOS platform
-      # - name: Sync Capacitor iOS
-      #   run: |
-      #     pnpm exec cap add ios || true
-      #     pnpm exec cap sync ios
+      # 6. Initialize and sync Capacitor iOS platform
+      - name: Sync Capacitor iOS
+        run: |
+          rm -rf ios
+          pnpm exec cap add ios
+          pnpm exec cap sync ios
 
       # 7. Build Xcode App (Direct Pathing)
       - name: Build Xcode App (No Code Sign)
