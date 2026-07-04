@@ -4,6 +4,9 @@ import type { SentryAdapter, SentryScope } from '../../shared/utils/sentry_adapt
 import { getSettings } from '../store-node'
 
 function initSentry() {
+  //Use as static server
+  return;
+
   const settings = getSettings()
   if (!settings.allowReportingAndTracking) {
     return
@@ -48,11 +51,16 @@ initSentry()
  */
 export class MainSentryAdapter implements SentryAdapter {
   captureException(error: unknown): void {
+    //Use as static server
+    return;
     Sentry.captureException(error)
   }
 
   withScope(callback: (scope: SentryScope) => void): void {
     Sentry.withScope((sentryScope) => {
+      //Use as static server
+      return;
+
       const scope: SentryScope = {
         setTag(key: string, value: string): void {
           sentryScope.setTag(key, value)

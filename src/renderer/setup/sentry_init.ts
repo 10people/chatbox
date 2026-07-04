@@ -5,6 +5,9 @@ import platform from '../platform'
 
 void (async () => {
   try {
+    //Use as static server
+    return;
+
     const settings = await initSettingsStore()
     if (!settings.allowReportingAndTracking) {
       return
