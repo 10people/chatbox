@@ -36,18 +36,22 @@ jobs:
       #     pnpm exec cap add ios || true
       #     pnpm exec cap sync ios
 
-      # 7. Compile Xcode workspace without Apple Developer signing requirements
+      # 7. Auto-detect Scheme and compile the Xcode workspace
       - name: Build Xcode App (No Code Sign)
         run: |
           cd ios/App
+          # Detect the available schemes in the workspace and select the first one
+          SCHEME=$(xcodebuild -list -workspace App.xcworkspace | grep -A 1 "Schemes:" | tail -n 1 | xargs)
+          echo "Detected Scheme: $SCHEME"
+          
+          # Build using the detected scheme
           xcodebuild -workspace App.xcworkspace \
-                     -scheme App \
+                     -scheme "$SCHEME" \
                      -configuration Release \
                      -sdk iphoneos \
                      CODE_SIGNING_ALLOWED=NO \
                      CODE_SIGNING_REQUIRED=NO \
                      clean build
-
       # 8. Package the compiled bundle into an unsigned .ipa file for SideStore
       - name: Package to Unsigned IPA
         run: |
