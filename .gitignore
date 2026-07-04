@@ -190,3 +190,5 @@ storybook-static
 .claude/worktrees/
 
 tmp-*.md
+
+/ios/
