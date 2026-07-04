@@ -35,6 +35,12 @@ jobs:
       #   run: |
       #     pnpm exec cap add ios || true
       #     pnpm exec cap sync ios
+      
+      # 新增：安装 CocoaPods 依赖 (这是通往成功的最后一步！)
+      - name: Install CocoaPods
+        run: |
+          cd ios/App
+          pod install
 
       # 7. Build Xcode App (Direct Pathing)
       - name: Build Xcode App (No Code Sign)
