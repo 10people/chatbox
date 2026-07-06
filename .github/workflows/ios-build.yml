@@ -28,8 +28,11 @@ jobs:
         
       # 5. Build the web application assets
       - name: Build Web Frontend
-        run: pnpm build
-
+        env:
+          CHATBOX_BUILD_TARGET: mobile_app
+          CHATBOX_BUILD_PLATFORM: ios
+        run: pnpm run build
+        
       # 6. Initialize and sync Capacitor iOS platform
       - name: Sync Capacitor iOS
         run: |
